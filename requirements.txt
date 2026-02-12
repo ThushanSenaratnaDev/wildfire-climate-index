@@ -4,5 +4,6 @@ requests
 python-dotenv
 psycopg2-binary
 sqlalchemy
-pyarrow  # For handling large historical Parquet files
+pyarrow
 fastparquet
+boto3  
