@@ -7,3 +7,5 @@ sqlalchemy
 pyarrow
 fastparquet
 boto3  
+matplotlib
+seaborn
