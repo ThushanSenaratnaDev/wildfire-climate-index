@@ -1,0 +1,11 @@
+Run Docker command
+docker-compose run --rm scheduler python scripts/{file_name}
+
+Enter Postgrees db
+docker-compose exec postgres psql -U airflow -d airflow
+
+Get all tables 
+\dt
+
+Get Rows
+SELECT COUNT(*) FROM raw_fires;
