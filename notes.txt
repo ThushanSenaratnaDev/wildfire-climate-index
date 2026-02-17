@@ -1,11 +1,26 @@
-Run Docker command
+#Run Docker command but destroys the container ones task is completed.
 docker-compose run --rm scheduler python scripts/{file_name}
 
-Enter Postgrees db
+#Start the container and make it run continously
+docker-compose up -d
+
+#initialize the database
+docker-compose run --rm webserver airflow db init
+
+#Create a admin user
+docker-compose run --rm webserver airflow users create \
+    --username admin \
+    --firstname Admin \
+    --lastname User \
+    --role Admin \
+    --email admin@example.com \
+    --password admin
+
+#Enter Postgrees db
 docker-compose exec postgres psql -U airflow -d airflow
 
-Get all tables 
+#Get all tables 
 \dt
 
-Get Rows
+#Get Rows
 SELECT COUNT(*) FROM raw_fires;
