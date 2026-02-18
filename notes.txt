@@ -24,3 +24,12 @@ docker-compose exec postgres psql -U airflow -d airflow
 
 #Get Rows
 SELECT COUNT(*) FROM raw_fires;
+
+
+#env
+NASA_API_KEY=your_nasa_key_here
+# --- AWS CONFIG ---
+AWS_ACCESS_KEY_ID=paste_your_access_key_here
+AWS_SECRET_ACCESS_KEY=paste_your_secret_key_here
+AWS_DEFAULT_REGION=us-east-1
+S3_BUCKET_NAME=wildfire-lake-[yourname]-[number]
