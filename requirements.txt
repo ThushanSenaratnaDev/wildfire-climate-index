@@ -9,3 +9,4 @@ fastparquet
 boto3  
 matplotlib
 seaborn
+boto3
