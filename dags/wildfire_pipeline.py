@@ -36,20 +36,26 @@ with DAG(
         bash_command='python /opt/airflow/scripts/fetch_wildfires_raw.py'
     )
 
-    # TASK 3: Load to Postgres
-    t3_load_db = BashOperator(
+    # --- TASK 3: Upload to AWS S3 (The New Step) ---
+    t3_upload_s3 = BashOperator(
+        task_id='upload_to_aws',
+        bash_command='python /opt/airflow/scripts/upload_to_s3.py',
+    )
+
+    # TASK 4: Load to Postgres
+    t4_load_db = BashOperator(
         task_id='load_to_postgres',
         bash_command='python /opt/airflow/scripts/load_to_postgres.py',
     )
 
-    # TASK 4: Transform (SQL) 
-    t4_transform = BashOperator(
+    # TASK 5: Transform (SQL) 
+    t5_transform = BashOperator(
         task_id='transform_gold_layer',
         bash_command='python /opt/airflow/scripts/transform_data.py',
     )
 
-    # TASK 5: Visualize 
-    t5_visualize = BashOperator(
+    # TASK 6: Visualize 
+    t6_visualize = BashOperator(
         task_id='generate_chart',
         bash_command='python /opt/airflow/scripts/visualize_trends.py',
     )
@@ -57,6 +63,8 @@ with DAG(
     # Define Task Dependencies
 
     #t1 and t2 can run in parallel since they are independent data fetches
-    [t1_fetch_temps, t2_fetch_fires]>>t3_load_db
-    # After loading, we transform the data
-    t3_load_db>>t4_transform>>t5_visualize
+    [t1_fetch_temps, t2_fetch_fires]>>t3_upload_s3
+    # After uploading, we load and transform the data
+    t3_upload_s3>>t4_load_db
+    t4_load_db>>t5_transform>>t6_visualize
+    
